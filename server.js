@@ -16,37 +16,45 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/wsjArticles", {useNewUrlParser:true});
+mongoose.connect("mongodb://localhost/wsjArticles", { useNewUrlParser: true });
 
+const artUrl = "http://www.espn.com/mlb/team/_/name/atl/atlanta-braves";
+
+
+//Scrape route
 app.get("/scrape", function (req, res) {
-    axios.get("https://www.wsj.com/news/business/industrial-services").then(function (response) {
-        var $ = cheerio.load(response.data);
-        $("article.WSJTheme__story_pKzwqDTtmhBsWmw3xOcLr").each(function (i, element) {
-            var result = {};
+    axios.get(artUrl).then(function (response) {
+        const $ = cheerio.load(response.data);
 
-            // result.headline = $(this)
-            // .children(".WSJTheme_headline_19_2KfxGdC8OTxXXrZcwJ2 a")
-            // .text();
+        const results = [];
 
-            result.headline = $(this)
-                .find("div.WSJTheme__articleType_WZo32uUhVLQVoD6_eTR7q").find("h3.WSJTheme__headline_19_2KfxGdC8OTxXXrZcwJ")
-            .find("a").text();
-            result.url = $(this)
-                .children(".WSJTheme_headline_19_2KfxGdC8OTxXXrZcwJ2 a")
-                .attr("href");
-            result.summary = $(this)
-                .children("p")
-                .text();
-            result.artCategory = $(this)
-                .children(".WSJTheme_articleType_WZo32uUhVLQVoD6_eTR7q span")
-                .text();
+        $("article.news-feed-item.news-feed-story-package").each(function (i, element) {
+            let title = $(element).find("a.realStory").text()
+            let timeStamp = $(element).find(".timestamp").text()
+            let url = artUrl + ($(element).find("a.realStory").attr("href"));
+            let summary = $(element).find("p").text();
 
-            console.log(result.headline);
+            results.push({
+                title: title,
+                timeStamp: timeStamp,
+                url: url,
+                summary: summary
+            });
+            console.log("Local Results:" + results);
+            db.Article.create(results)
+                .then(function (dbArticle) {
+                    console.log(dbArticle);
+                }).catch(function (err) {
+                    console.log(err);
+                })
+        });
 
-        })
-    })
+        // Log the results once you've looped through each of the elements found with cheerio
+        // console.log(results);
+    });
     res.send("Scrape Complete");
 })
+
 
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");

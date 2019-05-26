@@ -4,22 +4,19 @@ const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema({
 
-    headline: {
+    title: {
         type: String,
         required: true
     },
-
+    timeStamp: {
+        type: String,
+        required: true
+    },
     url: {
         type: String,
         required: true
     },
-
     summary: {
-        type: String,
-        required: true
-    },
-
-    artCategory: {
         type: String,
         required: true
     },
