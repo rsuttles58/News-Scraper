@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let NoteSchema = ({
+let NoteSchema = new Schema({
     title:String,
     body:String
 })
