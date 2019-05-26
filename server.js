@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/wsjArticles", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/bravesArticles", { useNewUrlParser: true });
 
 const artUrl = "http://www.espn.com/mlb/team/_/name/atl/atlanta-braves";
 
@@ -55,6 +55,18 @@ app.get("/scrape", function (req, res) {
     res.send("Scrape Complete");
 })
 
+app.get("/articles", function(req, res) {
+    // Grab every document in the Articles collection
+    db.Article.find({})
+      .then(function(dbArticle) {
+        // If we were able to successfully find Articles, send them back to the client
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        // If an error occurred, send it to the client
+        res.json(err);
+      });
+  });
 
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
