@@ -55,18 +55,32 @@ app.get("/scrape", function (req, res) {
     res.send("Scrape Complete");
 })
 
-app.get("/articles", function(req, res) {
+//Route that grabs all articles from DB.
+app.get("/articles", function (req, res) {
     // Grab every document in the Articles collection
     db.Article.find({})
-      .then(function(dbArticle) {
-        // If we were able to successfully find Articles, send them back to the client
-        res.json(dbArticle);
-      })
-      .catch(function(err) {
-        // If an error occurred, send it to the client
-        res.json(err);
-      });
-  });
+        .then(function (dbArticle) {
+            // If we were able to successfully find Articles, send them back to the client
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+        });
+});
+
+//Route that grabs an article by ID.
+app.get("/articles/:id", function (req, res) {
+    // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+    db.Article.findOne({ _id: req.params.id })
+        .populate("note")
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
+});
 
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
