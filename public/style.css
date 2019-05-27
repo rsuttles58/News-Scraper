@@ -7,8 +7,8 @@ h1 {
 body{
     background-image: url("./img/grass.jpg");
     background-size: cover;
-    color:white;
-    font-family: 'News Cycle', sans-serif;
+    color:black;
+    font-family: 'Kadwa', serif;
     font-size:1em;
 }
 
@@ -18,6 +18,7 @@ body{
     font-family: 'Playball', cursive;
     font-size:2.25vw;
     height:20vw;
+    border:4px solid red;
 }
 
 .description {
@@ -25,7 +26,8 @@ body{
 }
 
 .tower{
-    border:2px solid black;
+    padding-top:10px;
+    border:2px solid #233e6b;
     font-size:1.5em;
 }
 
