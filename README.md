@@ -23,4 +23,4 @@ If you wish to download the repository and run the code locally, you will need t
 
 This project utilizes javascript, express, dotenv, ajax, mongoDB, and node.js to render the website.  This project uses an MVC model approach. NPM dependencies are listed above.  Morgan is included to maintain visibility on the routes that are called in the running of the application.  It is a very useful tool for development but is not a requirement for a production environment.
 
-
+![Optional Text](/public/img/FrontPage.JPG)
