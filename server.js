@@ -16,7 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/bravesArticles", { useNewUrlParser: true });
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/bravesArticles";
+mongoose.connect(MONGODB_URI);
 
 const artUrl = "http://www.espn.com/mlb/team/_/name/atl/atlanta-braves";
 
