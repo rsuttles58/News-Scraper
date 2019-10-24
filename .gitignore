@@ -1,3 +1,5 @@
 node_modules
 .env
+cypress
+cypress.json
 
