@@ -1,4 +1,4 @@
-$.getJSON("/articles", function (data) {
+$.getJSON("/articles", data => {
 
     for (var i = 0; i < data.length; i++) {
 
@@ -9,11 +9,11 @@ $.getJSON("/articles", function (data) {
     }
 });
 
-$(document).on("click", "article", function() {
+$(document).on("click", "article", () => {
 
     $("#noteHolder").empty();
 
-    var thisId = $(this).attr("data-id");
+    let thisId = $(this).attr("data-id");
   
 
     $.ajax({
@@ -21,7 +21,7 @@ $(document).on("click", "article", function() {
       url: "/articles/" + thisId
     })
 
-      .then(function(data) {
+      .then(data => {
         console.log(data);
 
         $("#noteHolder").append("<h2>" + data.title + "</h2>");
@@ -41,9 +41,9 @@ $(document).on("click", "article", function() {
       });
   });
 
-  $(document).on("click", "#savenote", function() {
+  $(document).on("click", "#savenote", () => {
 
-    var thisId = $(this).attr("data-id");
+    let thisId = $(this).attr("data-id");
   
     $.ajax({
       method: "POST",
